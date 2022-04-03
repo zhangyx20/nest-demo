@@ -10,10 +10,16 @@ exports.CoffeesModule = void 0;
 const coffees_service_1 = require("./coffees.service");
 const coffees_controller_1 = require("./coffees.controller");
 const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
+const coffees_entities_1 = require("./entities/coffees.entities");
 let CoffeesModule = class CoffeesModule {
 };
 CoffeesModule = __decorate([
-    (0, common_1.Module)({ controllers: [coffees_controller_1.CoffeesController], providers: [coffees_service_1.CoffeesService] })
+    (0, common_1.Module)({
+        imports: [typeorm_1.TypeOrmModule.forFeature([coffees_entities_1.Coffee])],
+        controllers: [coffees_controller_1.CoffeesController],
+        providers: [coffees_service_1.CoffeesService],
+    })
 ], CoffeesModule);
 exports.CoffeesModule = CoffeesModule;
 //# sourceMappingURL=coffees.module.js.map

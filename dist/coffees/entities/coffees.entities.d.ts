@@ -1,6 +1,6 @@
 export declare class Coffee {
-    id: number;
-    name: string;
-    brand: string;
-    flavors: string[];
+  id: string;
+  name: string;
+  brand: string;
+  flavors: string[];
 }
