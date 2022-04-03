@@ -15,6 +15,10 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
       // 将传参自动转换为controller方法中被定义的类型
       transform: true,
+      transformOptions: {
+        // 在 Dto 中的装饰器不再需要用 Type 指明类型
+        enableImplicitConversion: true,
+      },
     }),
   );
   await app.listen(3000);

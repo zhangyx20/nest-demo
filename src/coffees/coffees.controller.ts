@@ -9,10 +9,12 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   // Query,
   // Res,
 } from "@nestjs/common";
 import { CoffeesService } from "./coffees.service";
+import { PaginationQueryDto } from "../common/dto/pagination-query.dto";
 
 @Controller("coffees")
 export class CoffeesController {
@@ -27,20 +29,20 @@ export class CoffeesController {
   // findAll(@Res() response) {
   //   response.status(200).send('This action returns all coffees');
   // }
-  // findAll(@Query() paginationQuery) {
-  //   const { limit, offset } = paginationQuery;
-  //   return `This action returns all coffees. Limit: ${limit}, offset: ${offset}`;
+  // @Get()
+  // findAll() {
+  //   return this.coffeesService.findAll();
   // }
-  @Get("findAll")
-  findAll() {
-    return this.coffeesService.findAll();
+  @Get()
+  findAll(@Query() paginationQuery: PaginationQueryDto) {
+    return this.coffeesService.findAll(paginationQuery);
   }
 
   // @Get(':id')
   // findOne(@Param() params) {
   //   return `This action returns #${params.id} coffee`;
   // }
-  @Get("findOne/:id")
+  @Get(":id")
   findOne(@Param("id") id: string) {
     return this.coffeesService.findOne(id);
   }
@@ -60,8 +62,9 @@ export class CoffeesController {
     return this.coffeesService.update(id, body);
   }
 
-  @Delete(":id")
+  @Delete("remove/:id")
   remove(@Param("id") id: string) {
-    return `This action removes #${id} coffee`;
+    // return `This action removes #${id} coffee`;
+    return this.coffeesService.remove(id);
   }
 }

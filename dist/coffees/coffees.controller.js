@@ -16,6 +16,7 @@ exports.CoffeesController = void 0;
 const create_coffee_dto_1 = require("./dto/create-coffee.dto");
 const common_1 = require("@nestjs/common");
 const coffees_service_1 = require("./coffees.service");
+const pagination_query_dto_1 = require("../common/dto/pagination-query.dto");
 let CoffeesController = class CoffeesController {
     constructor(coffeesService) {
         this.coffeesService = coffeesService;
@@ -23,8 +24,8 @@ let CoffeesController = class CoffeesController {
     create(createCoffeeDto) {
         return this.coffeesService.create(createCoffeeDto);
     }
-    findAll() {
-        return this.coffeesService.findAll();
+    findAll(paginationQuery) {
+        return this.coffeesService.findAll(paginationQuery);
     }
     findOne(id) {
         return this.coffeesService.findOne(id);
@@ -33,7 +34,7 @@ let CoffeesController = class CoffeesController {
         return this.coffeesService.update(id, body);
     }
     remove(id) {
-        return `This action removes #${id} coffee`;
+        return this.coffeesService.remove(id);
     }
 };
 __decorate([
@@ -44,13 +45,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CoffeesController.prototype, "create", null);
 __decorate([
-    (0, common_1.Get)("findAll"),
+    (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [pagination_query_dto_1.PaginationQueryDto]),
     __metadata("design:returntype", void 0)
 ], CoffeesController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)("findOne/:id"),
+    (0, common_1.Get)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -65,7 +67,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CoffeesController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)(":id"),
+    (0, common_1.Delete)("remove/:id"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
