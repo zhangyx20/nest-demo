@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreateCoffeeDto } from "./dto/create-coffee.dto";
 import { Coffee } from "./entities/coffee.entity";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -7,8 +7,11 @@ import { UpdateCoffeeDto } from "./dto/update-coffee.dto";
 import { Flavor } from "./entities/flavor.entity";
 import { PaginationQueryDto } from "../common/dto/pagination-query.dto";
 import { Event } from "../events/entities/event.entity";
-import { COFFEE_BRANDS } from "./coffees.constants";
+import { ConfigService } from "@nestjs/config";
 
+// import { COFFEE_BRANDS } from "./coffees.constants";
+
+// @Injectable({ scope: Scope.REQUEST })
 @Injectable()
 export class CoffeesService {
   constructor(
@@ -17,9 +20,14 @@ export class CoffeesService {
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
     private readonly connection: Connection,
-    @Inject(COFFEE_BRANDS) coffeeBrands: string[],
+    private readonly configService: ConfigService, // @Inject(COFFEE_BRANDS) coffeeBrands: string[],
   ) {
-    console.log(coffeeBrands);
+    // const databaseHost = this.configService.get("database.host", "localhost");
+    const coffeesConfig = this.configService.get("coffees");
+    console.log(coffeesConfig);
+    // console.log(databaseHost);
+    // console.log(coffeeBrands);
+    // console.log("CoffeesService instantiated...");
   }
 
   // findAll() {
@@ -54,9 +62,9 @@ export class CoffeesService {
   //   }
   //   return coffee;
   // }
-  async findOne(id: string) {
-    const coffee = this.coffeeRepository.findOne({
-      where: { id: +id },
+  async findOne(id: number) {
+    const coffee = await this.coffeeRepository.findOne({
+      where: { id },
       relations: ["flavors"],
     });
     if (!coffee) {
@@ -102,7 +110,7 @@ export class CoffeesService {
   }
 
   async remove(id: string) {
-    const coffee = await this.findOne(id);
+    const coffee = await this.findOne(+id);
     return this.coffeeRepository.remove(coffee);
   }
 

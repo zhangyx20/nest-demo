@@ -6,6 +6,8 @@ import { Coffee } from "./entities/coffee.entity";
 import { Flavor } from "./entities/flavor.entity";
 import { Event } from "../events/entities/event.entity";
 import { COFFEE_BRANDS } from "./coffees.constants";
+import { ConfigModule } from "@nestjs/config";
+import coffeesConfig from "./config/coffees.config";
 
 class ConfigService {}
 class DevelopmentConfigService {}
@@ -19,10 +21,14 @@ export class CoffeeBrandsFactory {
 }
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])],
+  imports: [
+    TypeOrmModule.forFeature([Coffee, Flavor, Event]),
+    ConfigModule.forFeature(coffeesConfig),
+  ],
   controllers: [CoffeesController],
   providers: [
     CoffeesService,
+    CoffeeBrandsFactory,
     {
       provide: ConfigService,
       useClass: process.env.NODE_ENV === "" ? DevelopmentConfigService : ProductionConfigService,
@@ -32,19 +38,19 @@ export class CoffeeBrandsFactory {
     {
       provide: COFFEE_BRANDS,
       // 参数 brandFactory 是由 inject 注册提供的
-      // useFactory: (brandFactory: CoffeeBrandsFactory) => brandFactory.create(),
-      useFactory: async () => {
-        // const coffeeBrands = Promise.resolve(["buddy"]);
-        const coffeeBrands = new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(["buddy brew"]);
-          }, 3000);
-        });
-        console.log("Asynchronous data is retrieved...");
-        return coffeeBrands;
-      },
+      useFactory: (brandFactory: CoffeeBrandsFactory) => brandFactory.create(),
+      // useFactory: async () => {
+      //   // const coffeeBrands = Promise.resolve(["buddy"]);
+      //   const coffeeBrands = new Promise((resolve) => {
+      //     setTimeout(() => {
+      //       resolve(["buddy brew"]);
+      //     }, 3000);
+      //   });
+      //   console.log("Asynchronous data is retrieved...");
+      //   return coffeeBrands;
+      // },
       // inject 接受一个 provider 数组，这些 provider 会被传递到 useFactory 函数中
-      // inject: [CoffeeBrandsFactory],
+      inject: [CoffeeBrandsFactory],
     },
   ],
   exports: [CoffeesService],
