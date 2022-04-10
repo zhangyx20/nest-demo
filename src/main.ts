@@ -1,6 +1,6 @@
-import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { ValidationPipe } from "@nestjs/common";
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "./app.module";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,7 +15,7 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
       // 将传参自动转换为controller方法中被定义的类型
       transform: true,
-    }),
+    })
   );
   await app.listen(3000);
 }
