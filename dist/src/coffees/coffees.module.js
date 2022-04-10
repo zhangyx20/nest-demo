@@ -10,10 +10,23 @@ exports.CoffeesModule = void 0;
 const coffees_service_1 = require("./coffees.service");
 const coffees_controller_1 = require("./coffees.controller");
 const common_1 = require("@nestjs/common");
+const mongoose_1 = require("@nestjs/mongoose");
+const coffees_entities_1 = require("./entities/coffees.entities");
 let CoffeesModule = class CoffeesModule {
 };
 CoffeesModule = __decorate([
-    (0, common_1.Module)({ controllers: [coffees_controller_1.CoffeesController], providers: [coffees_service_1.CoffeesService] })
+    (0, common_1.Module)({
+        imports: [
+            mongoose_1.MongooseModule.forFeature([
+                {
+                    name: coffees_entities_1.Coffee.name,
+                    schema: coffees_entities_1.CoffeeSchema,
+                },
+            ]),
+        ],
+        controllers: [coffees_controller_1.CoffeesController],
+        providers: [coffees_service_1.CoffeesService],
+    })
 ], CoffeesModule);
 exports.CoffeesModule = CoffeesModule;
 //# sourceMappingURL=coffees.module.js.map

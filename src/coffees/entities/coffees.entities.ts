@@ -1,6 +1,15 @@
-export class Coffee {
-  id: number;
+import { Prop, SchemaFactory } from "@nestjs/mongoose";
+import { Document } from "mongoose";
+
+export class Coffee extends Document {
+  @Prop()
   name: string;
+
+  @Prop()
   brand: string;
+
+  @Prop([String])
   flavors: string[];
 }
+
+export const CoffeeSchema = SchemaFactory.createForClass(Coffee);
