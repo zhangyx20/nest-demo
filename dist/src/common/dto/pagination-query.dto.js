@@ -9,26 +9,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CoffeeSchema = exports.Coffee = void 0;
-const mongoose_1 = require("@nestjs/mongoose");
-const mongoose_2 = require("mongoose");
-let Coffee = class Coffee extends mongoose_2.Document {
-};
+exports.PaginationQueryDto = void 0;
+const class_validator_1 = require("class-validator");
+class PaginationQueryDto {
+}
 __decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], Coffee.prototype, "name", void 0);
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsPositive)(),
+    __metadata("design:type", Number)
+], PaginationQueryDto.prototype, "limit", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], Coffee.prototype, "brand", void 0);
-__decorate([
-    (0, mongoose_1.Prop)([String]),
-    __metadata("design:type", Array)
-], Coffee.prototype, "flavors", void 0);
-Coffee = __decorate([
-    (0, mongoose_1.Schema)()
-], Coffee);
-exports.Coffee = Coffee;
-exports.CoffeeSchema = mongoose_1.SchemaFactory.createForClass(Coffee);
-//# sourceMappingURL=coffees.entities.js.map
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsPositive)(),
+    __metadata("design:type", Number)
+], PaginationQueryDto.prototype, "offset", void 0);
+exports.PaginationQueryDto = PaginationQueryDto;
+//# sourceMappingURL=pagination-query.dto.js.map

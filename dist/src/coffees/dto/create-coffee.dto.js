@@ -9,26 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CoffeeSchema = exports.Coffee = void 0;
-const mongoose_1 = require("@nestjs/mongoose");
-const mongoose_2 = require("mongoose");
-let Coffee = class Coffee extends mongoose_2.Document {
-};
+exports.CreateCoffeeDto = void 0;
+const class_validator_1 = require("class-validator");
+class CreateCoffeeDto {
+}
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], Coffee.prototype, "name", void 0);
+], CreateCoffeeDto.prototype, "name", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], Coffee.prototype, "brand", void 0);
+], CreateCoffeeDto.prototype, "brand", void 0);
 __decorate([
-    (0, mongoose_1.Prop)([String]),
+    (0, class_validator_1.IsString)({ each: true }),
     __metadata("design:type", Array)
-], Coffee.prototype, "flavors", void 0);
-Coffee = __decorate([
-    (0, mongoose_1.Schema)()
-], Coffee);
-exports.Coffee = Coffee;
-exports.CoffeeSchema = mongoose_1.SchemaFactory.createForClass(Coffee);
-//# sourceMappingURL=coffees.entities.js.map
+], CreateCoffeeDto.prototype, "flavors", void 0);
+exports.CreateCoffeeDto = CreateCoffeeDto;
+//# sourceMappingURL=create-coffee.dto.js.map

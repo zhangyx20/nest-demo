@@ -15,6 +15,9 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
       // 将传参自动转换为controller方法中被定义的类型
       transform: true,
+        transformOptions: {
+          enableImplicitConversion: true
+        }
     })
   );
   await app.listen(3000);

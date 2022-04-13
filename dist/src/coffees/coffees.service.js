@@ -21,8 +21,9 @@ let CoffeesService = class CoffeesService {
     constructor(coffeeModel) {
         this.coffeeModel = coffeeModel;
     }
-    findAll() {
-        return this.coffeeModel.find().exec();
+    findAll(paginationQuery) {
+        const { limit, offset } = paginationQuery;
+        return this.coffeeModel.find().skip(offset).limit(limit).exec();
     }
     async findOne(id) {
         const coffee = await this.coffeeModel.findOne({ _id: id }).exec();
@@ -31,13 +32,15 @@ let CoffeesService = class CoffeesService {
         }
         return coffee;
     }
-    create(createCoffeeDto) {
-        const coffee = new this.coffeeModel(createCoffeeDto);
+    async create(createCoffeeDto) {
+        console.log(createCoffeeDto);
+        const coffee = await new this.coffeeModel(createCoffeeDto);
+        console.log(coffee);
         return coffee.save();
     }
     async update(id, updateCoffeeDto) {
         const existingCoffee = await this.coffeeModel.findOneAndUpdate({ _id: id }, {
-            set: updateCoffeeDto
+            $set: updateCoffeeDto
         }, {
             new: true
         }).exec();
@@ -45,6 +48,13 @@ let CoffeesService = class CoffeesService {
             throw new common_1.NotFoundException(`Coffee #{id} not found`);
         }
         return existingCoffee;
+    }
+    async remove(id) {
+        const coffee = await this.findOne(id);
+        return coffee.remove();
+    }
+    clear() {
+        return this.coffeeModel.remove();
     }
 };
 CoffeesService = __decorate([
